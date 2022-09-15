@@ -19,6 +19,7 @@ terraform {
 provider "azurerm" {
   # Configuration options
   version = "=2.13.0" 
+  skip_provider_registration = "true"
   features {}
 }
 
