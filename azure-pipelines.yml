@@ -13,7 +13,7 @@ stages:
          inputs:
            provider: 'azurerm'
            command: 'init'
-           backendServiceArm: 'Visual Studio Enterprise Subscription – MPN (9b5f80e7-022b-4269-942b-483d4a8e2df1)'
+           backendServiceArm: 'myServicePrincipalTest'
            backendAzureRmResourceGroupName: 'example-resources'
            backendAzureRmStorageAccountName: 'teststoragefordeployment'
            backendAzureRmContainerName: 'test'
@@ -38,5 +38,34 @@ stages:
                 displayName: 'install'
                 inputs:
                   terraformVersion: '3.21.1'
+              - task: TerraformTaskV3@3
+                displayName: 'init'
+                inputs:
+                  provider: 'azurerm'
+                  command: 'init'
+                  backendServiceArm: 'myServicePrincipalTest'
+                  backendAzureRmResourceGroupName: 'example-resources'
+                  backendAzureRmStorageAccountName: 'teststoragefordeployment'
+                  backendAzureRmContainerName: 'test'
+                  backendAzureRmKey: 'project.tfstate'
+              
+              - task: TerraformTaskV3@3
+                displayName: 'plan'
+                inputs:
+                  provider: 'azurerm'
+                  command: 'plan'
+                  environmentServiceNameAzureRM: 'myServicePrincipalTest'
 
+              - task: TerraformTaskV3@3
+                displayName: 'apply'
+                inputs:
+                  provider: 'azurerm'
+                  command: 'apply'
+                  environmentServiceNameAzureRM: 'myServicePrincipalTest'
           
+            
+          
+              
+
+
+
