@@ -1,0 +1,71 @@
+stages:
+  - stage: validate
+    jobs:
+    -  job: validate 
+       continueOnError: false
+       steps:
+       - task: TerraformInstaller@0
+         displayName: 'install'
+         inputs:
+           terraformVersion: '0.12.26'
+       - task: TerraformTaskV3@3
+         displayName: 'init'
+         inputs:
+           provider: 'azurerm'
+           command: 'init'
+           backendServiceArm: 'myServicePrincipalTest'
+           backendAzureRmResourceGroupName: 'example-resources'
+           backendAzureRmStorageAccountName: 'teststoragefordeployment'
+           backendAzureRmContainerName: 'test'
+           backendAzureRmKey: 'project.tfstate'
+       - task: TerraformTaskV3@3
+         displayName: 'validate'
+         inputs:
+           provider: 'azurerm'
+           command: 'validate'
+       
+  - stage: deploy
+    jobs:
+    -  deployment: validate 
+       continueOnError: false
+       environment: 'dev'
+       strategy:
+        runOnce:
+          deploy:
+            steps:
+              - checkout: self
+              - task: TerraformInstaller@0
+                displayName: 'install'
+                inputs:
+                  terraformVersion: '0.12.26'
+              - task: TerraformTaskV3@3
+                displayName: 'init'
+                inputs:
+                  provider: 'azurerm'
+                  command: 'init'
+                  backendServiceArm: 'myServicePrincipalTest'
+                  backendAzureRmResourceGroupName: 'example-resources'
+                  backendAzureRmStorageAccountName: 'teststoragefordeployment'
+                  backendAzureRmContainerName: 'test'
+                  backendAzureRmKey: 'project.tfstate'
+              
+              - task: TerraformTaskV3@3
+                displayName: 'plan'
+                inputs:
+                  provider: 'azurerm'
+                  command: 'plan'
+                  environmentServiceNameAzureRM: 'myServicePrincipalTest'
+
+              - task: TerraformTaskV3@3
+                displayName: 'apply'
+                inputs:
+                  provider: 'azurerm'
+                  command: 'apply'
+                  environmentServiceNameAzureRM: 'myServicePrincipalTest'
+          
+            
+          
+              
+
+
+
