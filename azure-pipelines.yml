@@ -1,0 +1,42 @@
+stages:
+  - stage: validate
+    jobs:
+    -  job: validate 
+       continueOnError: false
+       steps:
+       - task: TerraformInstaller@0
+         displayName: 'install'
+         inputs:
+           terraformVersion: '3.21.1'
+       - task: TerraformTaskV3@3
+         displayName: 'init'
+         inputs:
+           provider: 'azurerm'
+           command: 'init'
+           backendServiceArm: 'Visual Studio Enterprise Subscription – MPN (9b5f80e7-022b-4269-942b-483d4a8e2df1)'
+           backendAzureRmResourceGroupName: 'example-resources'
+           backendAzureRmStorageAccountName: 'teststoragefordeployment'
+           backendAzureRmContainerName: 'test'
+           backendAzureRmKey: 'project.tfstate'
+       - task: TerraformTaskV3@3
+         displayName: 'validate'
+         inputs:
+           provider: 'azurerm'
+           command: 'validate'
+       
+  - stage: deploy
+    jobs:
+    -  deployment: validate 
+       continueOnError: false
+       environment: 'dev'
+       strategy:
+        runOnce:
+          deploy:
+            steps:
+              - checkout: self
+              - task: TerraformInstaller@0
+                displayName: 'install'
+                inputs:
+                  terraformVersion: '3.21.1'
+
+          
