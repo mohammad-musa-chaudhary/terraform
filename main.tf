@@ -38,3 +38,16 @@ resource "azurerm_virtual_network" "example-network" {
 
 
 # 
+
+
+resource "azurerm_network_interface" "exampleNIC" {
+  name                = "example-nic"
+  location            = var.RegourceGropName 
+  resource_group_name = var.RegourceGropName  
+
+  ip_configuration {
+    name                          = "internal"
+    subnet_id                     = azurerm_virtual_network.example-network.subnet.id
+    private_ip_address_allocation = "Dynamic"
+  }
+}
