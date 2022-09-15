@@ -1,10 +1,10 @@
 terraform {
-  required_providers {
-    azurerm = {
-      source = "hashicorp/azurerm"
-      version = "2.13.0" #"3.21.1"
-    }
-  }
+  # required_providers {
+  #   azurerm = {
+  #     source = "hashicorp/azurerm"
+  #     version = "2.13.0" #"3.21.1"
+  #   }
+  # }
 
    #used  to put the state file in the storage 
     backend "azurerm" {
@@ -18,6 +18,7 @@ terraform {
 
 provider "azurerm" {
   # Configuration options
+  version = "=2.13.0" 
   features {}
 }
 
