@@ -102,7 +102,7 @@ resource "azurerm_app_service_plan" "exampleexampleAppServicePlan" {
   resource_group_name = var.RegourceGropName 
 
   sku {
-    tier = "Standard"
+    tier = "Basic"
     size = "S1"
   }
 }
