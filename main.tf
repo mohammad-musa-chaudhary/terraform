@@ -42,7 +42,7 @@ resource "azurerm_virtual_network" "example-network" {
 
 resource "azurerm_network_interface" "exampleNIC" {
   name                = "example-nic"
-  location            = var.RegourceGropName 
+  location            = var.locationVariable
   resource_group_name = var.RegourceGropName  
 
   ip_configuration {
@@ -55,8 +55,8 @@ resource "azurerm_network_interface" "exampleNIC" {
 
 resource "azurerm_linux_virtual_machine" "exampleVM" {
   name                = "example-machine"
-  resource_group_name = "example-resources"
-  location            = "UAE North"
+  resource_group_name = var.RegourceGropName  
+  location            = var.locationVariable 
   size                = "Standard_F2"
   disable_password_authentication = false
   admin_username      = "adminuser"
