@@ -35,8 +35,10 @@ resource "azurerm_virtual_network" "example-network" {
     address_prefix = "10.0.1.0/24"
   }
 }
+  
+ /*                                     Create Virtual machine                                */
 
-#public ip 
+# public ip 
 resource "azurerm_public_ip" "testPublicIP" {
   name                = "acceptanceTestPublicIp1"
   resource_group_name = var.RegourceGropName
@@ -45,6 +47,7 @@ resource "azurerm_public_ip" "testPublicIP" {
 }
 
 # network interface 
+   #   assign public ip created above in to NIC not to the VM 
 resource "azurerm_network_interface" "exampleNIC" {
   name                = "example-nic"
   location            = var.locationVariable
@@ -86,5 +89,43 @@ resource "azurerm_linux_virtual_machine" "exampleVM" {
     offer     = "UbuntuServer"
     sku       = "16.04-LTS"
     version   = "latest"
+  }
+}
+
+
+ /*                                     Create App service                                */
+
+ 
+resource "azurerm_app_service_plan" "exampleexampleAppServicePlan" {
+  name                = "example-appserviceplan"
+  location            = var.locationVariable 
+  resource_group_name = var.RegourceGropName 
+
+  sku {
+    tier = "Standard"
+    size = "S1"
+  }
+}
+
+
+resource "azurerm_app_service" "exampleAppService" {
+  name                = "example-app-service-example-resources-fortest"
+  location            = var.locationVariablen
+  resource_group_name = var.RegourceGropName
+  app_service_plan_id = azurerm_app_service_plan.exampleexampleAppServicePlan.id
+
+  site_config {
+    dotnet_framework_version = "v4.0"
+    scm_type                 = "LocalGit"
+  }
+
+  app_settings = {
+    "SOME_KEY" = "some-value"
+  }
+
+  connection_string {
+    name  = "Database"
+    type  = "SQLServer"
+    value = "Server=some-server.mydomain.com;Integrated Security=SSPI"
   }
 }
