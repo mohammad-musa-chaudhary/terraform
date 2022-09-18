@@ -36,10 +36,15 @@ resource "azurerm_virtual_network" "example-network" {
   }
 }
 
+#public ip 
+resource "azurerm_public_ip" "testPublicIP" {
+  name                = "acceptanceTestPublicIp1"
+  resource_group_name = var.RegourceGropName
+  location            = var.locationVariable 
+  allocation_method   = "Static"
+}
 
-# 
-
-
+# network interface 
 resource "azurerm_network_interface" "exampleNIC" {
   name                = "example-nic"
   location            = var.locationVariable
@@ -49,10 +54,11 @@ resource "azurerm_network_interface" "exampleNIC" {
     name                          = "internal"
     subnet_id                     = "/subscriptions/9b5f80e7-022b-4269-942b-483d4a8e2df1/resourceGroups/example-resources/providers/Microsoft.Network/virtualNetworks/example-virtualnetwork/subnets/subnet1"
     private_ip_address_allocation = "Dynamic"
+    public_ip_address_id = azurerm_public_ip.testPublicIP.id
   }
 }
 
-
+# virtual machine
 resource "azurerm_linux_virtual_machine" "exampleVM" {
   name                = "example-machine"
   resource_group_name = var.RegourceGropName  
