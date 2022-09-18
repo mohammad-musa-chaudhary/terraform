@@ -110,7 +110,7 @@ resource "azurerm_app_service_plan" "exampleexampleAppServicePlan" {
 
 resource "azurerm_app_service" "exampleAppService" {
   name                = "example-app-service-example-resources-fortest"
-  location            = var.locationVariablen
+  location            = var.locationVariable
   resource_group_name = var.RegourceGropName
   app_service_plan_id = azurerm_app_service_plan.exampleexampleAppServicePlan.id
 
