@@ -51,3 +51,34 @@ resource "azurerm_network_interface" "exampleNIC" {
     private_ip_address_allocation = "Dynamic"
   }
 }
+
+
+resource "azurerm_linux_virtual_machine" "exampleVM" {
+  name                = "example-machine"
+  resource_group_name = "example-resources"
+  location            = "UAE North"
+  size                = "Standard_F2"
+  disable_password_authentication = false
+  admin_username      = "adminuser"
+  admin_password      = "P@$$w0rd1234!"
+  network_interface_ids = [
+    azurerm_network_interface.exampleNIC.id,
+  ]
+
+#   admin_ssh_key {
+#     username   = "adminuser"
+#     public_key = file("~/.ssh/id_rsa.pub")
+#   }
+
+  os_disk {
+    caching              = "ReadWrite"
+    storage_account_type = "Standard_LRS"
+  }
+
+  source_image_reference {
+    publisher = "Canonical"
+    offer     = "UbuntuServer"
+    sku       = "16.04-LTS"
+    version   = "latest"
+  }
+}
