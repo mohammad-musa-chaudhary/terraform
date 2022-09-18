@@ -147,10 +147,10 @@ resource "azurerm_kubernetes_cluster" "example" {
     vm_size    = "Standard_D2_v2"
   }
 
-  service_principal {
-    client_id     = "00000000-0000-0000-0000-000000000000"
-    client_secret = "00000000000000000000000000000000"
-  }
+  # service_principal {
+  #   client_id     = "00000000-0000-0000-0000-000000000000"
+  #   client_secret = "00000000000000000000000000000000"
+  # }
 }
 
 resource "azurerm_kubernetes_cluster_node_pool" "example" {
