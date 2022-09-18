@@ -47,7 +47,7 @@ resource "azurerm_network_interface" "exampleNIC" {
 
   ip_configuration {
     name                          = "internal"
-    subnet_id                     = "/subscriptions/9b5f80e7-022b-4269-942b-483d4a8e2df1/resourceGroups/example-resources/providers/Microsoft.Network/virtualNetworks/example-network/subnets/example-subnet"
+    subnet_id                     = "/subscriptions/9b5f80e7-022b-4269-942b-483d4a8e2df1/resourceGroups/example-resources/providers/Microsoft.Network/virtualNetworks/example-virtualnetwork/subnets/subnet1"
     private_ip_address_allocation = "Dynamic"
   }
 }
