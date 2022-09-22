@@ -311,7 +311,7 @@ resource "azurerm_subnet" "AuzreBastionSubnet" {
   name                 = "AuzreBastionSubnet"
   resource_group_name  = var.RegourceGropName
   virtual_network_name = azurerm_virtual_network.example.name
-  address_prefixes     = ["10.1.1.0/26"]
+  address_prefixes     = ["10.0.2.0/26"]
 }
 
 
