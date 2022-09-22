@@ -302,3 +302,36 @@ resource "azurerm_firewall" "example" {
     public_ip_address_id = azurerm_public_ip.example.id
   }
 }
+
+
+
+/*                                    Bastion Service                                    */
+
+resource "azurerm_subnet" "bastionSubnet" {
+  name                 = "AzureFirewallSubnet"
+  resource_group_name  = var.RegourceGropName
+  virtual_network_name = azurerm_virtual_network.example.name
+  address_prefixes     = ["10.0.1.0/27"]
+}
+
+
+
+resource "azurerm_public_ip" "BastionPiblicIP" {
+  name                = "BastionPiblicIP"
+  location            = var.locationVariable
+  resource_group_name = var.RegourceGropName
+  allocation_method   = "Static"
+  sku                 = "Standard"
+}
+
+resource "azurerm_bastion_host" "bastionService" {
+  name                = "bastionService"
+  location            = var.locationVariable
+  resource_group_name = var.RegourceGropName
+
+  ip_configuration {
+    name                 = "configuration"
+    subnet_id            = azurerm_subnet.bastionSubnet.id
+    public_ip_address_id = azurerm_public_ip.BastionPiblicIP.id
+  }
+}
