@@ -307,11 +307,11 @@ resource "azurerm_firewall" "example" {
 
 /*                                    Bastion Service                                    */
 
-resource "azurerm_subnet" "bastionSubnet" {
-  name                 = "AzureFirewallSubnet"
+resource "azurerm_subnet" "AuzreBastionSubnet" {
+  name                 = "AuzreBastionSubnet"
   resource_group_name  = var.RegourceGropName
   virtual_network_name = azurerm_virtual_network.example.name
-  address_prefixes     = ["10.0.1.0/27"]
+  address_prefixes     = ["10.1.1.0/26"]
 }
 
 
@@ -331,7 +331,7 @@ resource "azurerm_bastion_host" "bastionService" {
 
   ip_configuration {
     name                 = "configuration"
-    subnet_id            = azurerm_subnet.bastionSubnet.id
+    subnet_id            = azurerm_subnet.AuzreBastionSubnet.id
     public_ip_address_id = azurerm_public_ip.BastionPiblicIP.id
   }
 }
