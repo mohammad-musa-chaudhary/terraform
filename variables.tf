@@ -1,7 +1,7 @@
 variable RegourceGropName  {
   type        = string
-  default     = "example-resources"
-  description = "Regource Grop Name n"
+  default     = "testrg2"
+  description = "Regource Grop Name "
 }
 
 variable locationVariable {

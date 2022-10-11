@@ -8,9 +8,9 @@ terraform {
 
    #used  to put the state file in the storage 
     backend "azurerm" {
-    resource_group_name  = "example-resources"
+    resource_group_name  = "testrg2"
     storage_account_name = "teststoragefordeployment"
-    container_name       = "test"
+    container_name       = "qnbshare"
     key                  = "project.tfstate"
   }
 
@@ -23,77 +23,77 @@ provider "azurerm" {
   features {}
 }
 
-# # virtual network 
-# resource "azurerm_virtual_network" "example-network" {
-#   name                = "example-virtualnetwork"
-#   resource_group_name = var.RegourceGropName  
-#   location            = var.locationVariable 
-#   address_space       = ["10.0.0.0/16"]
+# virtual network 
+resource "azurerm_virtual_network" "example-network" {
+  name                = "example-virtualnetwork"
+  resource_group_name = var.RegourceGropName  
+  location            = var.locationVariable 
+  address_space       = ["10.0.0.0/16"]
 
-#     subnet {
-#     name           = "subnet1"
-#     address_prefix = "10.0.1.0/24"
-#   }
-# }
+    subnet {
+    name           = "subnet1"
+    address_prefix = "10.0.1.0/24"
+  }
+}
   
 #  /*                                     Create Virtual machine                                */
 
 # # public ip 
-# resource "azurerm_public_ip" "testPublicIP" {
-#   name                = "acceptanceTestPublicIp1"
-#   resource_group_name = var.RegourceGropName
-#   location            = var.locationVariable 
-#   allocation_method   = "Static"
-# }
+resource "azurerm_public_ip" "testPublicIP" {
+  name                = "acceptanceTestPublicIp1"
+  resource_group_name = var.RegourceGropName
+  location            = var.locationVariable 
+  allocation_method   = "Static"
+}
 
 # # network interface 
-#    #   assign public ip created above in to NIC not to the VM 
-# resource "azurerm_network_interface" "exampleNIC" {
-#   name                = "example-nic"
-#   location            = var.locationVariable
-#   resource_group_name = var.RegourceGropName  
+   #   assign public ip created above in to NIC not to the VM 
+resource "azurerm_network_interface" "exampleNIC" {
+  name                = "example-nic"
+  location            = var.locationVariable
+  resource_group_name = var.RegourceGropName  
 
-#   ip_configuration {
-#     name                          = "internal"
-#     subnet_id                     = "/subscriptions/9b5f80e7-022b-4269-942b-483d4a8e2df1/resourceGroups/example-resources/providers/Microsoft.Network/virtualNetworks/example-virtualnetwork/subnets/subnet1"
-#     private_ip_address_allocation = "Dynamic"
-#     public_ip_address_id = azurerm_public_ip.testPublicIP.id
-#   }
-# }
+  ip_configuration {
+    name                          = "internal"
+    subnet_id                     = "/subscriptions/9b5f80e7-022b-4269-942b-483d4a8e2df1/resourceGroups/example-resources/providers/Microsoft.Network/virtualNetworks/example-virtualnetwork/subnets/subnet1"
+    private_ip_address_allocation = "Dynamic"
+    public_ip_address_id = azurerm_public_ip.testPublicIP.id
+  }
+}
 
 # # virtual machine
-# resource "azurerm_linux_virtual_machine" "exampleVM" {
-#   name                = "example-machine"
-#   resource_group_name = var.RegourceGropName  
-#   location            = var.locationVariable 
-#   size                = "Standard_F2"
-#   disable_password_authentication = false
-#   admin_username      = "adminuser"
-#   admin_password      = "P@$$w0rd1234!"
-#   network_interface_ids = [
-#     azurerm_network_interface.exampleNIC.id,
-#   ]
+resource "azurerm_linux_virtual_machine" "exampleVM" {
+  name                = "example-machine"
+  resource_group_name = var.RegourceGropName  
+  location            = var.locationVariable 
+  size                = "Standard_F2"
+  disable_password_authentication = false
+  admin_username      = "adminuser"
+  admin_password      = "P@$$w0rd1234!"
+  network_interface_ids = [
+    azurerm_network_interface.exampleNIC.id,
+  ]
 
-# #   admin_ssh_key {
-# #     username   = "adminuser"
-# #     public_key = file("~/.ssh/id_rsa.pub")
-# #   }
-
-#   os_disk {
-#     caching              = "ReadWrite"
-#     storage_account_type = "Standard_LRS"
+#   admin_ssh_key {
+#     username   = "adminuser"
+#     public_key = file("~/.ssh/id_rsa.pub")
 #   }
 
-#   source_image_reference {
-#     publisher = "Canonical"
-#     offer     = "UbuntuServer"
-#     sku       = "16.04-LTS"
-#     version   = "latest"
-#   }
-# }
+  os_disk {
+    caching              = "ReadWrite"
+    storage_account_type = "Standard_LRS"
+  }
+
+  source_image_reference {
+    publisher = "Canonical"
+    offer     = "UbuntuServer"
+    sku       = "16.04-LTS"
+    version   = "latest"
+  }
+}
 
 
-#  /*                                     Create App service                                */
+# #  /*                                     Create App service                                */
 
  
 # resource "azurerm_app_service_plan" "exampleexampleAppServicePlan" {
@@ -132,7 +132,7 @@ provider "azurerm" {
 
 
 
-/*                                     Create Kubernetes cluster                                */
+# /*                                     Create Kubernetes cluster                                */
 
 
 # resource "azurerm_kubernetes_cluster" "example" {
@@ -265,73 +265,73 @@ provider "azurerm" {
 # }
 
 
-/*                                          Creat Firewall                                */
+# /*                                          Creat Firewall                                */
 
-resource "azurerm_virtual_network" "example" {
-  name                = "testvnet"
-  address_space       = ["10.0.0.0/16"]
-  location            = var.locationVariable
-  resource_group_name = var.RegourceGropName
-}
+# resource "azurerm_virtual_network" "example" {
+#   name                = "testvnet"
+#   address_space       = ["10.0.0.0/16"]
+#   location            = var.locationVariable
+#   resource_group_name = var.RegourceGropName
+# }
 
-resource "azurerm_subnet" "example" {
-  name                 = "AzureFirewallSubnet"
-  resource_group_name  = var.RegourceGropName
-  virtual_network_name = azurerm_virtual_network.example.name
-  address_prefixes     = ["10.0.1.0/24"]
-}
+# resource "azurerm_subnet" "example" {
+#   name                 = "AzureFirewallSubnet"
+#   resource_group_name  = var.RegourceGropName
+#   virtual_network_name = azurerm_virtual_network.example.name
+#   address_prefixes     = ["10.0.1.0/24"]
+# }
 
-resource "azurerm_public_ip" "example" {
-  name                = "testpip"
-  location            = var.locationVariable
-  resource_group_name = var.RegourceGropName
-  allocation_method   = "Static"
-  sku                 = "Standard"
-}
+# resource "azurerm_public_ip" "example" {
+#   name                = "testpip"
+#   location            = var.locationVariable
+#   resource_group_name = var.RegourceGropName
+#   allocation_method   = "Static"
+#   sku                 = "Standard"
+# }
 
-resource "azurerm_firewall" "example" {
-  name                = "testfirewall"
-  location            = var.locationVariable
-  resource_group_name = var.RegourceGropName
-  #sku_name            = "AZFW_VNet"
-  #sku_tier            = "Standard"
+# resource "azurerm_firewall" "example" {
+#   name                = "testfirewall"
+#   location            = var.locationVariable
+#   resource_group_name = var.RegourceGropName
+#   #sku_name            = "AZFW_VNet"
+#   #sku_tier            = "Standard"
 
-  ip_configuration {
-    name                 = "configuration"
-    subnet_id            = azurerm_subnet.example.id
-    public_ip_address_id = azurerm_public_ip.example.id
-  }
-}
+#   ip_configuration {
+#     name                 = "configuration"
+#     subnet_id            = azurerm_subnet.example.id
+#     public_ip_address_id = azurerm_public_ip.example.id
+#   }
+# }
 
 
 
 /*                                    Bastion Service                                    */
 
-resource "azurerm_subnet" "AuzreBastionSubnet" {
-  name                 = "AuzreBastionSubnet"
-  resource_group_name  = var.RegourceGropName
-  virtual_network_name = azurerm_virtual_network.example.name
-  address_prefixes     = ["10.0.2.0/26"]
-}
+# resource "azurerm_subnet" "AuzreBastionSubnet" {
+#   name                 = "AuzreBastionSubnet"
+#   resource_group_name  = var.RegourceGropName
+#   virtual_network_name = azurerm_virtual_network.example.name
+#   address_prefixes     = ["10.0.2.0/26"]
+# }
 
 
 
-resource "azurerm_public_ip" "BastionPiblicIP" {
-  name                = "BastionPiblicIP"
-  location            = var.locationVariable
-  resource_group_name = var.RegourceGropName
-  allocation_method   = "Static"
-  sku                 = "Standard"
-}
+# resource "azurerm_public_ip" "BastionPiblicIP" {
+#   name                = "BastionPiblicIP"
+#   location            = var.locationVariable
+#   resource_group_name = var.RegourceGropName
+#   allocation_method   = "Static"
+#   sku                 = "Standard"
+# }
 
-resource "azurerm_bastion_host" "bastionService" {
-  name                = "bastionService"
-  location            = var.locationVariable
-  resource_group_name = var.RegourceGropName
+# resource "azurerm_bastion_host" "bastionService" {
+#   name                = "bastionService"
+#   location            = var.locationVariable
+#   resource_group_name = var.RegourceGropName
 
-  ip_configuration {
-    name                 = "configuration"
-    subnet_id            = azurerm_subnet.AuzreBastionSubnet.id
-    public_ip_address_id = azurerm_public_ip.BastionPiblicIP.id
-  }
-}
+#   ip_configuration {
+#     name                 = "configuration"
+#     subnet_id            = azurerm_subnet.AuzreBastionSubnet.id
+#     public_ip_address_id = azurerm_public_ip.BastionPiblicIP.id
+#   }
+# }
