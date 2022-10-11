@@ -13,9 +13,9 @@ stages:
          inputs:
            provider: 'azurerm'
            command: 'init'
-           backendServiceArm: 'myServicePrincipalTest'
+           backendServiceArm: 'myServicePrincipalTest2'
            backendAzureRmResourceGroupName: 'testrg2'
-           backendAzureRmStorageAccountName: 'teststoragefordeployment2'
+           backendAzureRmStorageAccountName: 'teststoragefordeployment'
            backendAzureRmContainerName: 'qnbshare'
            backendAzureRmKey: 'project.tfstate'
        - task: TerraformTaskV3@3
