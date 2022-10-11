@@ -93,6 +93,29 @@ resource "azurerm_linux_virtual_machine" "exampleVM" {
 }
 
 
+/*                                 Load Balancers                       */
+
+resource "azurerm_public_ip" "exampleloadbalancerIP" {
+  name                = "PublicIPForLB"
+  location            = var.locationVariable
+  resource_group_name = var.RegourceGropName 
+  allocation_method   = "Static"
+}
+
+resource "azurerm_lb" "example" {
+  name                = "TestLoadBalancer"
+  location            = var.locationVariable
+  resource_group_name = var.RegourceGropName 
+
+  frontend_ip_configuration {
+    name                 = "PublicIPAddress"
+    public_ip_address_id = azurerm_public_ip.exampleloadbalancerIP.id
+  }
+}
+
+
+
+
 # #  /*                                     Create App service                                */
 
  
