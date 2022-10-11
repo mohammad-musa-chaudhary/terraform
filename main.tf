@@ -93,6 +93,27 @@ resource "azurerm_linux_virtual_machine" "exampleVM" {
 }
 
 
+/*                                    Route table                                  */
+
+resource "azurerm_route_table" "testRouteTable" {
+  name                = "example-routetable"
+  location            = var.locationVariable
+  resource_group_name = var.RegourceGropName 
+
+  route {
+    name                   = "exampleRouteTable"
+    address_prefix         = "10.100.0.0/14"
+    next_hop_type          = "VirtualAppliance"
+    next_hop_in_ip_address = "20.233.47.229"
+  }
+}
+
+resource "azurerm_subnet_route_table_association" "routeassociation" {
+  subnet_id      = "/subscriptions/9b5f80e7-022b-4269-942b-483d4a8e2df1/resourceGroups/testrg2/providers/Microsoft.Network/virtualNetworks/example-virtualnetwork/subnets/subnet1" #azurerm_subnet.example.id
+  route_table_id = azurerm_route_table.testRouteTable.id
+}
+
+
 /*                                 Load Balancers                       */
 
 resource "azurerm_public_ip" "exampleloadbalancerIP" {
