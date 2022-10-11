@@ -55,7 +55,7 @@ resource "azurerm_network_interface" "exampleNIC" {
 
   ip_configuration {
     name                          = "internal"
-    subnet_id                     = "/subscriptions/9b5f80e7-022b-4269-942b-483d4a8e2df1/resourceGroups/example-resources/providers/Microsoft.Network/virtualNetworks/example-virtualnetwork/subnets/subnet1"
+    subnet_id                     = "/subscriptions/9b5f80e7-022b-4269-942b-483d4a8e2df1/resourceGroups/testrg2/providers/Microsoft.Network/virtualNetworks/example-virtualnetwork/subnets/subnet1"
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id = azurerm_public_ip.testPublicIP.id
   }
